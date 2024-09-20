@@ -1,38 +1,48 @@
 import "@/global.css";
-import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import {DefaultTheme, ThemeProvider} from "@react-navigation/native";
+import {useFonts} from "expo-font";
+import {Stack} from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import "react-native-reanimated";
 
-import { useColorScheme } from "@/hooks/useColorScheme";
+import {useColorScheme} from "@/hooks/useColorScheme";
+import {AuthContext} from "@/store/AuthContext";
+import {BaseUser} from "@/hooks/useUser";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-	const colorScheme = useColorScheme();
-	const [loaded] = useFonts({
-		SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-	});
+  const colorScheme = useColorScheme();
 
-	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
-		}
-	}, [loaded]);
+  // Load fonts
+  const [loaded] = useFonts({
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+  });
 
-	if (!loaded) {
-		return null;
-	}
+  // Manage user state here
+  const [user, setUser] = useState<BaseUser | null>(null);
+  console.log("context user", user);
 
-	return (
-		<ThemeProvider value={DefaultTheme}>
-			<Stack>
-				<Stack.Screen name="index" options={{ headerShown: false }} />
-				<Stack.Screen name="+not-found" />
-			</Stack>
-		</ThemeProvider>
-	);
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
+
+  return (
+    <AuthContext.Provider value={{user, setUser}}>
+      <ThemeProvider value={DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="index" options={{headerShown: false}} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </ThemeProvider>
+    </AuthContext.Provider>
+  );
 }

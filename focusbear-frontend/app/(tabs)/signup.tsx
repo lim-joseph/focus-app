@@ -11,14 +11,16 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-export default function Login() {
+export default function Signup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 
-	const handleLogin = () => {
-		// Handle login with email and password
+	const handleSignup = () => {
+		// Handle signup with email and password
 		console.log("Email:", email);
 		console.log("Password:", password);
+		console.log("Confirm Password:", confirmPassword);
 	};
 
 	return (
@@ -35,7 +37,7 @@ export default function Login() {
 				<ThemedText type="title">🐻 FocusBear</ThemedText>
 			</ThemedView>
 			<ThemedView style={styles.stepContainer}>
-				<ThemedText type="subtitle">Login</ThemedText>
+				<ThemedText type="subtitle">Sign Up</ThemedText>
 				<TextInput
 					style={styles.input}
 					placeholder="Email"
@@ -50,11 +52,18 @@ export default function Login() {
 					value={password}
 					onChangeText={setPassword}
 				/>
-				<Button title="Login" onPress={handleLogin} />
+				<TextInput
+					style={styles.input}
+					placeholder="Confirm Password"
+					secureTextEntry
+					value={confirmPassword}
+					onChangeText={setConfirmPassword}
+				/>
+				<Button title="Sign Up" onPress={handleSignup} />
 				<TouchableOpacity
-					style={styles.signupButton}
+					style={styles.loginButton}
 					onPress={() => {
-						/* Handle sign up navigation */
+						/* Handle login navigation */
 					}}
 				></TouchableOpacity>
 			</ThemedView>
@@ -88,10 +97,10 @@ const styles = StyleSheet.create({
 		marginBottom: 12,
 		borderRadius: 4,
 	},
-	signupButton: {
+	loginButton: {
 		marginTop: 12,
 	},
-	signupText: {
+	loginText: {
 		color: "#007BFF",
 		textAlign: "center",
 	},

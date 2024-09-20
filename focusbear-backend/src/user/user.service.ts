@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
-import { UserRegisterDto } from './dtos/userRegister.dto';
+import { UserRegisterDto } from './dtos/user.dto';
 import type { FindOptionsWhere } from 'typeorm';
 @Injectable()
 export class UserService {
@@ -14,8 +14,8 @@ export class UserService {
         userRegisterDto: UserRegisterDto,
     ) {
         const user = this.userRepository.create(userRegisterDto);
-        await this.userRepository.save(user);
-        return user;
+        const savedUser = await this.userRepository.save(user);
+        return savedUser;
 
     }
 

@@ -1,17 +1,17 @@
-import React, {useState} from "react";
-import {Button, Image, StyleSheet, View} from "react-native";
+import React, { useState } from "react";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import {ThemedText} from "@/components/ThemedText";
-import {ThemedView} from "@/components/ThemedView";
-import {useRouter} from "expo-router";
-import {useUser} from "@/hooks/useUser";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { useRouter } from "expo-router";
+import { useUser } from "@/hooks/useUser";
 
 export default function Streaks() {
   const router = useRouter();
   const [morningStreak, setMorningStreak] = useState(0);
   const [eveningStreak, setEveningStreak] = useState(0);
-  const {user} = useUser();
+  const { user } = useUser();
   console.log(user);
   const handleLogEntry = (routine: "morning" | "evening") => {
     if (routine === "morning") {
@@ -23,7 +23,7 @@ export default function Streaks() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{light: "#A1CEDC", dark: "#1D3D47"}}
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
       headerImage={
         <Image
           source={require("@/assets/images/partial-react-logo.png")}
@@ -34,10 +34,6 @@ export default function Streaks() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">🐻 FocusBear</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome User</ThemedText>
-      </ThemedView>
-
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Streaks</ThemedText>
         <View style={styles.streakContainer}>
@@ -46,7 +42,7 @@ export default function Streaks() {
           </ThemedText>
           <View style={styles.streakBar}>
             <View
-              style={[styles.streakFill, {width: `${morningStreak * 10}%`}]}
+              style={[styles.streakFill, { width: `${morningStreak * 10}%` }]}
             />
           </View>
         </View>
@@ -56,7 +52,7 @@ export default function Streaks() {
           </ThemedText>
           <View style={styles.streakBar}>
             <View
-              style={[styles.streakFill, {width: `${eveningStreak * 10}%`}]}
+              style={[styles.streakFill, { width: `${eveningStreak * 10}%` }]}
             />
           </View>
         </View>
@@ -105,4 +101,40 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#76c7c0",
   },
+  view: {
+    padding: 20
+  },
+  pageTitle: {
+    fontSize: 25
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
+    marginTop: 40
+  },
+  streakContainer: {
+    marginBottom: 16,
+  },
+  streakBar: {
+    height: 20,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginTop: 4,
+  },
+  streakFill: {
+    height: "100%",
+    backgroundColor: "#76c7c0",
+  },
+  bearLogo: {
+    height: 30,
+    width: 31,
+    marginBottom: -4,
+    marginRight: 10
+  }
 });

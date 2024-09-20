@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {
   Button,
   Image,
@@ -11,33 +11,25 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import {ThemedText} from "@/components/ThemedText";
 import {ThemedView} from "@/components/ThemedView";
 import {useRouter} from "expo-router";
+import {useAuth} from "@/hooks/useAuth";
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {user, login} = useAuth();
+  console.log(user);
+  if (user) {
+    console.log("User is logged in", user);
+    router.push("/home");
+  }
 
   const handleLogin = async () => {
-    const url = "http://localhost:3000/auth/login";
-
-    const body = new URLSearchParams();
-    body.append("email", email);
-    body.append("password", password);
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: body.toString(),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
+    try {
+      await login({email: email, password: password});
       router.push("/home");
-      console.log("Login Successful:", data);
-    } else {
-      console.error("Login Failed:", response.statusText);
+    } catch (error) {
+      console.error(error);
     }
   };
 

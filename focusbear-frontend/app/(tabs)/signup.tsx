@@ -1,5 +1,5 @@
 import {useRouter} from "expo-router";
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {
   Button,
   Image,
@@ -12,18 +12,22 @@ import {
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import {ThemedText} from "@/components/ThemedText";
 import {ThemedView} from "@/components/ThemedView";
+import {useAuth} from "@/hooks/useAuth";
 
 export default function Signup() {
   const router = useRouter();
-
+  const {user, signUp} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState(""); // State to hold error messages
-
+  if (user) {
+    console.log("User is logged in", user);
+    router.push("/home");
+  }
   // Email validation function
-  const validateEmail = (email) => {
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -51,30 +55,12 @@ export default function Signup() {
     // Clear error if validation passes
     setError("");
 
-    // Perform the signup request
     try {
-      const response = await fetch("http://localhost:3000/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          name: name,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Signup Successful:", data);
-        router.push("/home"); // Redirect after successful signup
-      } else {
-        const errorData = await response.json();
-        setError(`Signup Failed: ${errorData.message}`);
-      }
+      await signUp({email, password, name});
+      router.push("/home");
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
+      console.error(error);
+      setError("An error occurred. Please try again.");
     }
   };
 

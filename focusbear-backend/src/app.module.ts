@@ -3,9 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserEntity } from './user/user.entity';
+import { UserModule } from './user/user.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    UserModule,
     ConfigModule.forRoot({
       isGlobal: true,  // Make the configuration globally available
     }),
@@ -20,14 +26,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         port: configService.get<number>('DB_PORT') || 5432,  // Use environment variable or default to 5432
         username: configService.get<string>('DB_USERNAME') || 'postgres',
         password: configService.get<string>('DB_PASSWORD') || 'postgres',
-        database: configService.get<string>('DB_DATABASE') || 'postgres',
-        entities: [],
+        database: configService.get<string>('DB_DATABASE') || 'focusbear',
+        entities: [UserEntity],
         synchronize: true,
         logging: true,
       }),
     }),
+
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AuthController],
+  providers: [AppService, AuthService],
 })
 export class AppModule { }

@@ -1,4 +1,3 @@
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import "@/global.css";
 import {
 	DarkTheme,
@@ -33,13 +32,11 @@ export default function RootLayout() {
 	}
 
 	return (
-		<GluestackUIProvider mode="light">
-			<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-				<Stack>
-					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					<Stack.Screen name="+not-found" />
-				</Stack>
-			</ThemeProvider>
-		</GluestackUIProvider>
+		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+			<Stack>
+				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+				<Stack.Screen name="+not-found" />
+			</Stack>
+		</ThemeProvider>
 	);
 }

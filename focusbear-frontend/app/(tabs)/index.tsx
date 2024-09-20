@@ -10,8 +10,10 @@ import {
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useRouter } from "expo-router";
 
 export default function Login() {
+	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -19,6 +21,8 @@ export default function Login() {
 		// Handle login with email and password
 		console.log("Email:", email);
 		console.log("Password:", password);
+
+		router.push("/home");
 	};
 
 	return (

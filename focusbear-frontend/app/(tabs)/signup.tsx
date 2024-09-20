@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
 	Button,
@@ -12,6 +13,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
 export default function Signup() {
+	const router = useRouter();
+
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -21,6 +24,8 @@ export default function Signup() {
 		console.log("Email:", email);
 		console.log("Password:", password);
 		console.log("Confirm Password:", confirmPassword);
+
+		router.push("/");
 	};
 
 	return (

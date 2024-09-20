@@ -24,7 +24,7 @@ export class AuthController {
             properties: {
                 email: {
                     type: 'string',
-                    example: 'john.doe@example.com',
+                    example: 'johndoe@email.com',
                 },
                 password: {
                     type: 'string',
@@ -37,6 +37,8 @@ export class AuthController {
         @Body() UserLoginDto: UserLoginDto
     ) {
         const user = await this.authService.validateUser(UserLoginDto);
+
+        console.log(user)
         return user;
 
     }

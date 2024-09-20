@@ -2,15 +2,15 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
 	Button,
-	Image,
 	StyleSheet,
+	Text,
 	TextInput,
 	TouchableOpacity,
+	View,
 } from "react-native";
 
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { Image as ExpoImage } from "expo-image";
 
 export default function Signup() {
 	const router = useRouter();
@@ -22,7 +22,7 @@ export default function Signup() {
 	const [error, setError] = useState(""); // State to hold error messages
 
 	// Email validation function
-	const validateEmail = (email) => {
+	const validateEmail = (email: string) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
 	};
@@ -78,25 +78,29 @@ export default function Signup() {
 	};
 
 	return (
-		<ParallaxScrollView
-			headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-			headerImage={
-				<Image
-					source={require("@/assets/images/partial-react-logo.png")}
-					style={styles.reactLogo}
+		<>
+			<View style={styles.titleContainer}>
+				<ExpoImage
+					style={styles.imageLarge}
+					source={require("@/assets/images/focusbear-devices.webp")}
+					contentFit="contain"
 				/>
-			}
-		>
-			<ThemedView style={styles.titleContainer}>
-				<ThemedText type="title">🐻 FocusBear</ThemedText>
-			</ThemedView>
-			<ThemedView style={styles.stepContainer}>
-				<ThemedText type="subtitle">Sign Up</ThemedText>
 
-				{/* Error Message Display */}
-				{error ? (
-					<ThemedText style={styles.errorText}>{error}</ThemedText>
-				) : null}
+				<ExpoImage
+					style={styles.imageSmall}
+					source={require("@/assets/images/focusbear-logo.svg")}
+					contentFit="contain"
+				/>
+			</View>
+
+			{/* Error Message Display */}
+
+			<View style={styles.stepContainer}>
+				<View style={styles.errorContainer}>
+					{error ? (
+						<ThemedText style={styles.errorText}>{error}</ThemedText>
+					) : null}
+				</View>
 
 				<TextInput
 					style={styles.input}
@@ -104,6 +108,7 @@ export default function Signup() {
 					keyboardType="default"
 					value={name}
 					onChangeText={setName}
+					placeholderTextColor="black"
 				/>
 				<TextInput
 					style={styles.input}
@@ -111,6 +116,7 @@ export default function Signup() {
 					keyboardType="email-address"
 					value={email}
 					onChangeText={setEmail}
+					placeholderTextColor="black"
 				/>
 				<TextInput
 					style={styles.input}
@@ -118,6 +124,7 @@ export default function Signup() {
 					secureTextEntry
 					value={password}
 					onChangeText={setPassword}
+					placeholderTextColor="black"
 				/>
 				<TextInput
 					style={styles.input}
@@ -125,41 +132,54 @@ export default function Signup() {
 					secureTextEntry
 					value={confirmPassword}
 					onChangeText={setConfirmPassword}
+					placeholderTextColor="black"
 				/>
-				<Button title="Sign Up" onPress={handleSignup} />
 
+				<Button title="Sign Up" onPress={handleSignup} />
 				<TouchableOpacity
 					style={styles.loginButton}
 					onPress={() => {
 						/* Handle login navigation */
 					}}
 				>
-					<ThemedText style={styles.loginText}>
-						Already have an account? Log In
-					</ThemedText>
+					<Text>
+						Already have an account?{" "}
+						<Text style={styles.loginTextBold} onPress={() => router.push("/")}>
+							Sign in
+						</Text>
+					</Text>
 				</TouchableOpacity>
-			</ThemedView>
-		</ParallaxScrollView>
+			</View>
+		</>
 	);
 }
 
 const styles = StyleSheet.create({
 	titleContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: "column",
 		gap: 8,
+		width: "100%",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 	stepContainer: {
 		gap: 8,
 		marginBottom: 8,
-		padding: 16,
+		marginHorizontal: 48,
 	},
-	reactLogo: {
-		height: 178,
-		width: 290,
-		bottom: 0,
-		left: 0,
-		position: "absolute",
+	imageLarge: {
+		width: 300,
+		height: 150,
+		marginHorizontal: 16,
+		marginTop: 50,
+	},
+	imageSmall: {
+		width: 225,
+		height: 100,
+		marginHorizontal: 16,
+	},
+	errorContainer: {
+		alignItems: "center",
 	},
 	input: {
 		height: 40,
@@ -171,10 +191,10 @@ const styles = StyleSheet.create({
 	},
 	loginButton: {
 		marginTop: 12,
+		alignItems: "center",
 	},
-	loginText: {
-		color: "#007BFF",
-		textAlign: "center",
+	loginTextBold: {
+		fontWeight: "bold",
 	},
 	errorText: {
 		color: "red",

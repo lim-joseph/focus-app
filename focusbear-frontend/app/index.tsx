@@ -44,22 +44,13 @@ export default function Login() {
 		<>
 			<View style={styles.titleContainer}>
 				<ExpoImage
-					style={{
-						width: 300,
-						height: 150,
-						marginHorizontal: 16,
-						marginTop: 150,
-					}}
+					style={styles.imageLarge}
 					source={require("@/assets/images/focusbear-devices.webp")}
 					contentFit="contain"
 				/>
 
 				<ExpoImage
-					style={{
-						width: 275,
-						height: 100,
-						marginHorizontal: 16,
-					}}
+					style={styles.imageSmall}
 					source={require("@/assets/images/focusbear-logo.svg")}
 					contentFit="contain"
 				/>
@@ -71,6 +62,7 @@ export default function Login() {
 					keyboardType="email-address"
 					value={email}
 					onChangeText={setEmail}
+					placeholderTextColor="black"
 				/>
 				<TextInput
 					style={styles.input}
@@ -78,6 +70,7 @@ export default function Login() {
 					secureTextEntry
 					value={password}
 					onChangeText={setPassword}
+					placeholderTextColor="black"
 				/>
 				<Button title="Sign In" onPress={handleLogin} />
 				<TouchableOpacity
@@ -87,8 +80,7 @@ export default function Login() {
 					}}
 				>
 					<Text>
-						Don't have an account?{" "}
-						<Text style={{ fontWeight: "bold" }}>Sign up</Text>
+						Don't have an account? <Text style={styles.boldText}>Sign up</Text>
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -111,12 +103,17 @@ const styles = StyleSheet.create({
 		marginHorizontal: 48,
 	},
 
-	reactLogo: {
-		height: 178,
-		width: 290,
-		bottom: 0,
-		left: 0,
-		position: "absolute",
+	imageLarge: {
+		width: 300,
+		height: 150,
+		marginHorizontal: 16,
+		marginTop: 150,
+	},
+
+	imageSmall: {
+		width: 225,
+		height: 100,
+		marginHorizontal: 16,
 	},
 
 	input: {
@@ -128,8 +125,13 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 		color: "black",
 	},
+
 	signupButton: {
 		marginTop: 12,
 		alignItems: "center",
+	},
+
+	boldText: {
+		fontWeight: "bold",
 	},
 });

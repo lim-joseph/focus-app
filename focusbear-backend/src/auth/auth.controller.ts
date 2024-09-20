@@ -1,24 +1,25 @@
-import { Controller, Body, Post } from '@nestjs/common';
-import { ApiTags, ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
+import { Controller, Post, Body, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { UserRegisterDto } from '../user/dtos/user.dto';
 import { UserLoginDto } from './dtos/user-login.dto';
+import { ApiOkResponse, ApiBadRequestResponse, ApiUnauthorizedResponse, ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller('auth')
-@ApiTags('auth')
 export class AuthController {
-
-    constructor(private authService: AuthService) {
-
-    }
-
+    constructor(private authService: AuthService) { }
 
     @Post('login')
     @ApiOkResponse({
-        description: 'User login',
+        description: 'User login successful',
     })
-    @ApiConsumes('application/x-www-form-urlencoded')  // Specify form submission
+    @ApiUnauthorizedResponse({
+        description: 'Invalid email or password',
+    })
+    @ApiBadRequestResponse({
+        description: 'Bad Request',
+    })
+    @ApiConsumes('application/x-www-form-urlencoded')
     @ApiBody({
-        description: 'Login form submission',
         schema: {
             type: 'object',
             properties: {
@@ -33,16 +34,18 @@ export class AuthController {
             },
         },
     })
-    async userLogin(
-        @Body() UserLoginDto: UserLoginDto
-    ) {
-        const user = await this.authService.validateUser(UserLoginDto);
-
-        console.log(user)
-        return user;
-
+    async userLogin(@Body() userLoginDto: UserLoginDto) {
+        return this.authService.validateUser(userLoginDto);
     }
 
-
-
+    @Post('register')
+    @ApiOkResponse({
+        description: 'User registration successful',
+    })
+    @ApiBadRequestResponse({
+        description: 'Email already exists',
+    })
+    async userRegister(@Body() userRegisterDto: UserRegisterDto) {
+        return this.authService.registerUser(userRegisterDto);
+    }
 }

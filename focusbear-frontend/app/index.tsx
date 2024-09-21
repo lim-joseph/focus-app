@@ -19,16 +19,16 @@ export default function Login() {
 	const { user, login } = useAuth();
 
 	// if (user) {
-	//   router.push("/home");
+	// 	router.push("/home");
 	// }
 
 	const handleLogin = async () => {
-		// try {
-		// 	await login({ email, password });
-		router.push("/home");
-		// } catch (error) {
-		// 	console.error("An error occurred. Please try again.");
-		// }
+		try {
+			await login({ email, password });
+			router.push("/home/(tabs)");
+		} catch (error) {
+			console.error("An error occurred. Please try again.");
+		}
 	};
 
 	return (

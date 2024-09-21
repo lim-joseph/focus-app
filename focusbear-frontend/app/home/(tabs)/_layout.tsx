@@ -9,9 +9,11 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 export default function TabLayout() {
 	const colorScheme = useColorScheme();
 	const { user } = useAuth();
+
 	// if (!user) {
 	//   router.push("/");
 	// }
+
 	return (
 		<Tabs
 			screenOptions={{

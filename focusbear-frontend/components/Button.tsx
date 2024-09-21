@@ -1,38 +1,71 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { type ComponentProps } from 'react';
+import { Sizes } from '@/constants/Sizes';
+import { Colors } from '@/constants/Colors';
 
-interface props { title: string | null }
+interface props {
+  title: string | null;
+  inverted: boolean | null;
+}
 
-export function Button({ title, onPress, style }: ComponentProps<typeof TouchableOpacity> & props) {
-	return (
-		<TouchableOpacity
-			onPress={onPress}
-			style={[styles.button, style]}
-		>
-			<Text style={[styles.buttonText]}>{title}</Text>
-		</TouchableOpacity>
-	);
+export function Button({
+  title = '',
+  inverted = false,
+  onPress,
+  style,
+}: ComponentProps<typeof TouchableOpacity> & props) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        style,
+        styles.button,
+        styles[inverted ? 'buttonInverted' : 'buttonNormal'],
+      ]}
+    >
+      <Text
+        style={[
+          styles.buttonText,
+          [styles[inverted ? 'buttonTextInverted' : 'buttonTextNormal']],
+        ]}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
-	buttonText: {
-		color: "white",
-		fontSize: 16,
-		lineHeight: 21,
-		fontWeight: "bold",
-		letterSpacing: 0.25,
-		fontFamily: "sans-serif"
-	},
+  buttonText: {
+    // fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    fontFamily: 'sans-serif',
+  },
 
-	button: {
-		backgroundColor: "#e9902c",
-		height: 40,
-		borderRadius: 20,
-		alignItems: "center",
-		justifyContent: "center",
-		paddingVertical: 12,
-		paddingHorizontal: 32,
-		elevation: 3,
-	},
+  buttonTextNormal: {
+    color: 'white',
+  },
+  buttonTextInverted: {
+    color: Colors.light.tint,
+  },
+
+  button: {
+    height: Sizes.buttonHeight,
+    borderRadius: Sizes.buttonRadius,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+    overflow: 'visible',
+    padding: 10,
+  },
+
+  buttonNormal: {
+    backgroundColor: Colors.light.tint,
+  },
+
+  buttonInverted: {
+    backgroundColor: 'none',
+  },
 });
-

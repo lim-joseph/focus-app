@@ -2,31 +2,33 @@ import { Image as ExpoImage } from 'expo-image';
 import React, { useState } from 'react';
 import {
   Button,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
 
-import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'expo-router';
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { user, login } = useAuth();
-  if (user) {
-    router.push('/home');
-  }
+
+  // if (user) {
+  //   router.push('/home');
+  // }
+
   const handleLogin = async () => {
     try {
       await login({ email, password });
       router.push('/home');
     } catch (error) {
-      console.error('An error occurred. Please try again.');
+      console.error('Username or password is incorrect');
     }
   };
 
@@ -87,24 +89,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-	stepContainer: {
-		gap: 8,
-		marginBottom: 8,
-		marginHorizontal: 48,
-	},
+  stepContainer: {
+    gap: 8,
+    marginBottom: 8,
+    marginHorizontal: 48,
+  },
 
-	imageLarge: {
-		width: 300,
-		height: 150,
-		marginHorizontal: 16,
-		marginTop: 150,
-	},
+  imageLarge: {
+    width: 300,
+    height: 150,
+    marginHorizontal: 16,
+    marginTop: 150,
+  },
 
-	imageSmall: {
-		width: 225,
-		height: 100,
-		marginHorizontal: 16,
-	},
+  imageSmall: {
+    width: 225,
+    height: 100,
+    marginHorizontal: 16,
+  },
 
   input: {
     height: 40,

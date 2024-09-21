@@ -1,5 +1,5 @@
-import {useRouter} from "expo-router";
-import React, {useState} from "react";
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   Button,
   StyleSheet,
@@ -7,24 +7,25 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+} from 'react-native';
 
-import {ThemedText} from "@/components/ThemedText";
-import {Image as ExpoImage} from "expo-image";
-import {useAuth} from "@/hooks/useAuth";
+import { ThemedText } from '@/components/ThemedText';
+import { useAuth } from '@/hooks/useAuth';
+import { Image as ExpoImage } from 'expo-image';
 
 export default function Signup() {
   const router = useRouter();
-  const {user, signUp} = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [error, setError] = useState(""); // State to hold error messages
+  const { user, signUp } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState(''); // State to hold error messages
 
-  if (user) {
-    router.push("/home");
-  }
+  // if (user) {
+  //   router.push("/home");
+  // }
+
   // Email validation function
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,31 +36,31 @@ export default function Signup() {
   const handleSignup = async () => {
     // Check if all fields are filled
     if (!email || !password || !confirmPassword || !name) {
-      setError("All fields must be filled.");
+      setError('All fields must be filled.');
       return;
     }
 
     // Validate email
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
+      setError('Please enter a valid email address.');
       return;
     }
 
     // Check if passwords match
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError('Passwords do not match.');
       return;
     }
 
     // Clear error if validation passes
-    setError("");
+    setError('');
 
     // Perform the signup request
     try {
-      await signUp({email: email, password: password, name: name});
-      router.push("/home");
+      await signUp({ email: email, password: password, name: name });
+      router.push('/home');
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      setError('An error occurred. Please try again.');
     }
   };
 
@@ -68,13 +69,13 @@ export default function Signup() {
       <View style={styles.titleContainer}>
         <ExpoImage
           style={styles.imageLarge}
-          source={require("@/assets/images/focusbear-devices.webp")}
+          source={require('@/assets/images/focusbear-devices.webp')}
           contentFit="contain"
         />
 
         <ExpoImage
           style={styles.imageSmall}
-          source={require("@/assets/images/focusbear-logo.svg")}
+          source={require('@/assets/images/focusbear-logo.svg')}
           contentFit="contain"
         />
       </View>
@@ -129,8 +130,8 @@ export default function Signup() {
           }}
         >
           <Text>
-            Already have an account?{" "}
-            <Text style={styles.loginTextBold} onPress={() => router.push("/")}>
+            Already have an account?{' '}
+            <Text style={styles.loginTextBold} onPress={() => router.push('/')}>
               Sign in
             </Text>
           </Text>
@@ -142,11 +143,11 @@ export default function Signup() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 8,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   stepContainer: {
     gap: 8,
@@ -165,11 +166,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   errorContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 8,
     marginBottom: 12,
@@ -177,13 +178,13 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginTop: 12,
-    alignItems: "center",
+    alignItems: 'center',
   },
   loginTextBold: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   errorText: {
-    color: "red",
+    color: 'red',
     marginBottom: 10,
   },
 });

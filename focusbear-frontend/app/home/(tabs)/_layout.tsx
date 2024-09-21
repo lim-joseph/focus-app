@@ -11,7 +11,7 @@ export default function TabLayout() {
   const { user } = useAuth();
 
   // if (!user) {
-  //   router.push("/");
+  //   router.push('/');
   // }
 
   return (

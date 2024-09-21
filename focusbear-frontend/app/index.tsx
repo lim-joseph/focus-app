@@ -19,9 +19,9 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const { user, login } = useAuth();
 
-  // if (user) {
-  //   router.push('/home');
-  // }
+  if (user) {
+    router.push('/home');
+  }
 
   const handleLogin = async () => {
     try {

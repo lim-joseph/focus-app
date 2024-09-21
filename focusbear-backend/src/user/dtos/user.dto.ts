@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
+
 export class UserDto {
     @ApiProperty({
         description: 'The id of the user',
@@ -28,6 +29,26 @@ export class UserDto {
     })
     @IsNotEmpty()
     password: string;
+
+
+    @ApiProperty({
+        description: 'The streak of the user',
+        example: 0,
+    })
+    morningRoutineStreak: number
+
+    @ApiProperty({
+        description: 'The evening streak of the user',
+        example: 0,
+    })
+    eveningRoutineStreak: number
+
+    @ApiProperty({
+        description: 'The focus session streak of the user',
+        example: 0,
+    })
+    focusSessionStreak: number
+
 }
 
 export class UserRegisterDto {

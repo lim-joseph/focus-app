@@ -10,8 +10,13 @@ export class DailyStatService {
         private dailyStatsRepository: Repository<DailyStatsEntity>,
     ) { }
 
-    create(dailyStats: DailyState) {
-        return this.dailyStatsRepository.save(dailyStats);
+    async create(dailyStats: DailyState) {
+        const newDailyStats = this.dailyStatsRepository.create({
+            ...dailyStats,
+            user: { id: dailyStats.user_id },
+        });
+
+        return await this.dailyStatsRepository.save(newDailyStats);
     }
 
     findAll(user_id: number) {

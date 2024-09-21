@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
 import { Button } from '@/components/Button';
+import { Sizes } from '@/constants/Sizes';
 
 import { useRouter } from 'expo-router';
 import { useUser } from '@/hooks/useUser';
@@ -22,13 +23,43 @@ export default function Streaks() {
   return (
     <View style={styles.view}>
       <Text style={styles.pageTitle}>User profile</Text>
+
+      <Text style={styles.cardTitle}>Hi {'username'}!</Text>
+
+      <Button
+        style={styles.friendButton}
+        title={'Add friend'}
+        inverted={false}
+        onPress={() => {
+          router.push('/home/add_friend');
+        }}
+      ></Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   view: {
-    padding: 20,
+    padding: Sizes.viewPadding,
+    gap: Sizes.viewPadding,
+    height: '100%',
+  },
+  card: {
+    padding: Sizes.viewPadding,
+    backgroundColor: 'white',
+    borderColor: '#dddddd',
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  friendButton: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: 20,
   },
   pageTitle: {
     paddingBottom: 20,

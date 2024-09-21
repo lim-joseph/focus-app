@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
 import { Button } from '@/components/Button';
 import { Sizes } from '@/constants/Sizes';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { useRouter } from 'expo-router';
 import { useUser } from '@/hooks/useUser';
+import { useRouter } from 'expo-router';
 
 export default function Streaks() {
   const router = useRouter();

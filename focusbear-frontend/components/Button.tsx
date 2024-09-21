@@ -1,7 +1,7 @@
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { type ComponentProps } from 'react';
-import { Sizes } from '@/constants/Sizes';
 import { Colors } from '@/constants/Colors';
+import { Sizes } from '@/constants/Sizes';
+import { type ComponentProps } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface props {
   title: string | null;
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.25,
     fontFamily: 'sans-serif',
+    overflow: 'visible',
   },
 
   buttonTextNormal: {

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 
-import { Colors } from '@/constants/Colors';
 import { Sizes } from '@/constants/Sizes';
 
-import { useRouter } from 'expo-router';
 import { useUser } from '@/hooks/useUser';
+import { useRouter } from 'expo-router';
 
 export default function Streaks() {
   const router = useRouter();
@@ -107,7 +106,7 @@ const styles = StyleSheet.create({
   bearLogo: {
     height: 30,
     width: 31,
-    marginBottom: -5,
+    marginBottom: -20,
     marginRight: 16,
   },
 });

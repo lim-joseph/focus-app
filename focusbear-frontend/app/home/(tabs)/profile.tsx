@@ -3,14 +3,14 @@ import { Sizes } from '@/constants/Sizes';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { useUser } from '@/hooks/useUser';
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'expo-router';
 
 export default function Streaks() {
   const router = useRouter();
   const [morningStreak, setMorningStreak] = useState(0);
   const [eveningStreak, setEveningStreak] = useState(0);
-  const { user } = useUser();
+  const { user } = useAuth();
   console.log(user);
   const handleLogEntry = (routine: 'morning' | 'evening') => {
     if (routine === 'morning') {
@@ -24,7 +24,7 @@ export default function Streaks() {
     <View style={styles.view}>
       <Text style={styles.pageTitle}>User profile</Text>
 
-      <Text style={styles.cardTitle}>Hi {'username'}!</Text>
+      <Text style={styles.cardTitle}>Hi {user?.name}!</Text>
 
       <Button
         style={styles.friendButton}

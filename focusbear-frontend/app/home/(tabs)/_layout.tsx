@@ -1,16 +1,16 @@
-import {Redirect, router, Tabs} from "expo-router";
+import { Redirect, router, Tabs } from "expo-router";
 import React from "react";
 
-import {TabBarIcon} from "@/components/navigation/TabBarIcon";
-import {Colors} from "@/constants/Colors";
-import {useColorScheme} from "@/hooks/useColorScheme";
-import {useAuth} from "@/hooks/useAuth";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const {user} = useAuth();
+  const { user } = useAuth();
   if (!user) {
-    return <Redirect href="/" />;
+    router.push("/");
   }
   return (
     <Tabs
@@ -23,9 +23,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Dashboard",
-          tabBarIcon: ({color, focused}) => (
+          tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "log-in" : "log-in-outline"}
+              name={focused ? "home" : "home-outline"}
               color={color}
             />
           ),
@@ -33,12 +33,25 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="friends"
+        name="streak"
         options={{
-          title: "Friends",
-          tabBarIcon: ({color, focused}) => (
+          title: "Streak",
+          tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
-              name={focused ? "people" : "people-outline"}
+              name={focused ? "flame" : "flame-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "person-circle" : "person-circle-outline"}
               color={color}
             />
           ),

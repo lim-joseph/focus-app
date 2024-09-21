@@ -1,5 +1,5 @@
-import {Image as ExpoImage} from "expo-image";
-import React, {useState} from "react";
+import { Image as ExpoImage } from 'expo-image';
+import React, { useState } from 'react';
 import {
   Button,
   StyleSheet,
@@ -7,40 +7,41 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
+  ScrollView,
+} from 'react-native';
 
-import {useRouter} from "expo-router";
-import {useAuth} from "@/hooks/useAuth";
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const {user, login} = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { user, login } = useAuth();
   if (user) {
-    router.push("/home");
+    router.push('/home');
   }
   const handleLogin = async () => {
     try {
-      await login({email, password});
-      router.push("/home");
+      await login({ email, password });
+      router.push('/home');
     } catch (error) {
-      console.error("An error occurred. Please try again.");
+      console.error('An error occurred. Please try again.');
     }
   };
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.titleContainer}>
         <ExpoImage
           style={styles.imageLarge}
-          source={require("@/assets/images/focusbear-devices.webp")}
+          source={require('@/assets/images/focusbear-devices.webp')}
           contentFit="contain"
         />
 
         <ExpoImage
           style={styles.imageSmall}
-          source={require("@/assets/images/focusbear-logo.svg")}
+          source={require('@/assets/images/focusbear-logo.svg')}
           contentFit="contain"
         />
       </View>
@@ -65,7 +66,7 @@ export default function Login() {
         <TouchableOpacity
           style={styles.signupButton}
           onPress={() => {
-            router.push("/signup");
+            router.push('/signup');
           }}
         >
           <Text>
@@ -73,17 +74,17 @@ export default function Login() {
           </Text>
         </TouchableOpacity>
       </View>
-    </>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 8,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   stepContainer: {
@@ -107,20 +108,20 @@ const styles = StyleSheet.create({
 
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 8,
     marginBottom: 12,
     borderRadius: 4,
-    color: "black",
+    color: 'black',
   },
 
   signupButton: {
     marginTop: 12,
-    alignItems: "center",
+    alignItems: 'center',
   },
 
   boldText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });

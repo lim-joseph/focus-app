@@ -1,7 +1,6 @@
 import { Image as ExpoImage } from 'expo-image';
 import React, { useState } from 'react';
 import {
-  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { Button } from '@/components/Button';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'expo-router';

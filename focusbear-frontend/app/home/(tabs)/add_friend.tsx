@@ -1,13 +1,8 @@
 import { useAuth } from '@/hooks/useAuth';
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
+
+import { Button } from '@/components/Button';
 
 const Friends: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);

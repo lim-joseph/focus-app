@@ -87,24 +87,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-    marginHorizontal: 48,
-  },
+	stepContainer: {
+		gap: 8,
+		marginBottom: 8,
+		marginHorizontal: 48,
+	},
 
-  imageLarge: {
-    width: 300,
-    height: 150,
-    marginHorizontal: 16,
-    marginTop: 150,
-  },
+	imageLarge: {
+		width: 300,
+		height: 150,
+		marginHorizontal: 16,
+		marginTop: 150,
+	},
 
-  imageSmall: {
-    width: 225,
-    height: 100,
-    marginHorizontal: 16,
-  },
+	imageSmall: {
+		width: 225,
+		height: 100,
+		marginHorizontal: 16,
+	},
 
   input: {
     height: 40,

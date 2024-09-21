@@ -49,6 +49,7 @@ export class UserDto {
     })
     focusSessionStreak: number
 
+    friends: UserDto[];
 }
 
 export class UserRegisterDto {

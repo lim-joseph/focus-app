@@ -21,4 +21,20 @@ export class UserEntity {
     eveningRountineStreak: number
     @Column('int', { name: 'focus_session_streak', nullable: false, default: 0 })
     focusSessionStreak: number
+
+
+    @ManyToMany(() => UserEntity)
+    @JoinTable({
+        name: 'user_friends',
+        joinColumn: {
+            name: 'user_email',
+            referencedColumnName: 'email'
+        },
+        inverseJoinColumn: {
+            name: 'friend_email',  // Renaming the column for the friend
+            referencedColumnName: 'email'  // Referring to 'email' in the UserEntity
+        }
+    })
+    friends: UserEntity[];
+
 }

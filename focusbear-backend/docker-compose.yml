@@ -15,11 +15,12 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       TZ: 'GMT'
       PGTZ: 'GMT'
+      POSTGRES_USER: postgres
       POSTGRES_DB: focusbear
+
     ports:
       - '5432:5432'
     volumes:

@@ -10,7 +10,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { DailyStateModule } from './daily-state/daily-state.module';
 import { DailyStatsEntity } from './daily-state/daily-state.entity';
-
+import InitSeeder from './database/seeds/init.seed';
 @Module({
   imports: [
     UserModule,
@@ -32,6 +32,8 @@ import { DailyStatsEntity } from './daily-state/daily-state.entity';
         entities: [UserEntity, DailyStatsEntity],
         synchronize: true,
         logging: true,
+        seeds: [InitSeeder],
+        factories: ["src/factories/**/*.factory.ts"]
       }),
     }),
 

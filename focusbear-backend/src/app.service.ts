@@ -9,9 +9,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  sendMail() {
-    const message = 'Hi! Your friend just sent you an invite to Focus Bear!';
-    const recipient = 'toby56@pm.me'
+  sendMail(recipient: string, message: string) {
 
     this.mailService.sendMail({
       from: 'Focus Bear <noreply@focusbear.com>',

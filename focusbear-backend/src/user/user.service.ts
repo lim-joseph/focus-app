@@ -4,10 +4,13 @@ import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { UserRegisterDto } from './dtos/user.dto';
 import type { FindOptionsWhere } from 'typeorm';
+import { MailerService } from '@nestjs-modules/mailer';
+
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>) { }
+    private userRepository: Repository<UserEntity>,
+        private readonly mailService: MailerService) { }
 
 
     async createUser(
@@ -44,16 +47,28 @@ export class UserService {
             .where('user.email = :email', { email })
             .getOne();
     }
-    async addFriendByEmail(userEmail: string, friendEmail: string): Promise<void> {
+    async addFriendByEmail(userEmail: string, friendEmail: string): Promise<string> {
 
         const user = await this.userRepository.findOne({ where: { email: userEmail }, relations: ['friends'] });
         const friend = await this.userRepository.findOne({ where: { email: friendEmail } });
 
         console.log("User", user);
         console.log("Friend", friend);
-        if (!user || !friend) {
-            throw new Error('User or friend not found');
+
+
+        if (!friend) {
+
+            const mail = await this.mailService.sendMail({
+                from: 'Focus Bear <noreply@focusbear.com>',
+                to: friendEmail,
+                subject: 'Invite to Focus Bear',
+                text: `You have been invited to join Focus Bear by ${userEmail}. Please sign up at focusbear.com`,
+            })
+            console.log(mail);
+            return "Invitation sent";
         }
+
+
         if (user.email === friend.email) {
             throw new Error('Cannot add yourself as a friend');
         }
@@ -62,6 +77,7 @@ export class UserService {
             user.friends.push(friend);
             await this.userRepository.save(user);
         }
+        return "Friend added";
     }
 
 

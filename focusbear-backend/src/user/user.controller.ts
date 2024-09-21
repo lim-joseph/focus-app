@@ -9,8 +9,8 @@ export class UserController {
 
 
     @Get()
-    getUser(): string {
-        return 'Hello World!';
+    getAllUser() {
+        return this.userService.getAllUsers()
     }
 
     @Post('add-friend')

@@ -12,6 +12,9 @@ export class UserService {
     private userRepository: Repository<UserEntity>,
         private readonly mailService: MailerService) { }
 
+    async getAllUsers(): Promise<UserEntity[]> {
+        return this.userRepository.find();
+    }
 
     async createUser(
         userRegisterDto: UserRegisterDto,
@@ -75,7 +78,13 @@ export class UserService {
 
         if (!user.friends.some(f => f.email === friendEmail)) {
             user.friends.push(friend);
-            await this.userRepository.save(user);
+            try {
+                await this.userRepository.save(user);
+            }
+            catch (e) {
+                console.error(e);
+                throw new Error('Friendship could not be created');
+            }
         }
         return "Friend added";
     }

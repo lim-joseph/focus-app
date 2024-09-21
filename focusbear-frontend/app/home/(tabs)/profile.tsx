@@ -10,7 +10,7 @@ export default function Streaks() {
   const router = useRouter();
   const [morningStreak, setMorningStreak] = useState(0);
   const [eveningStreak, setEveningStreak] = useState(0);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   console.log(user);
   const handleLogEntry = (routine: 'morning' | 'evening') => {
     if (routine === 'morning') {
@@ -32,6 +32,16 @@ export default function Streaks() {
         inverted={false}
         onPress={() => {
           router.push('/home/add_friend');
+        }}
+      ></Button>
+
+      <Button
+        style={styles.friendButton1}
+        title={'Logout'}
+        inverted={false}
+        onPress={() => {
+          logout();
+          router.push('/');
         }}
       ></Button>
     </View>
@@ -56,6 +66,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   friendButton: {
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: 70,
+  },
+  friendButton1: {
     position: 'absolute',
     left: 20,
     right: 20,

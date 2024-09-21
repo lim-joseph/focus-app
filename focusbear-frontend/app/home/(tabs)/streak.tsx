@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 import { Colors } from '@/constants/Colors';
-import { useUser } from '@/hooks/useUser';
+import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'expo-router';
 import { Clock, Moon, Sun } from 'lucide-react-native';
 
@@ -17,37 +23,22 @@ interface DailyStats {
 
 export default function Streaks() {
   const router = useRouter();
-  const { user } = useUser();
+  const { user } = useAuth();
   const [dailyStats, setDailyStats] = useState<DailyStats | null>(null);
-  const [leaderboard, setLeaderboard] = useState([
-    {
-      id: '1',
-      name: 'User1',
-      morningStreak: 10,
-      eveningStreak: 5,
-      focusStreak: 3,
-    },
-    {
-      id: '2',
-      name: 'User2',
-      morningStreak: 8,
-      eveningStreak: 4,
-      focusStreak: 2,
-    },
-    {
-      id: '3',
-      name: 'User3',
-      morningStreak: 6,
-      eveningStreak: 3,
-      focusStreak: 1,
-    },
-  ]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [leaderboardData, setLeaderboardData] = useState([]);
+  const [sortCriterion, setSortCriterion] = useState<
+    'focusStreak' | 'morningStreak' | 'eveningStreak'
+  >('focusStreak'); // Default sorting criterion
 
   useEffect(() => {
     fetchDailyData();
     fetchLeaderboardData();
   }, []);
+
+  useEffect(() => {
+    sortLeaderboard();
+  }, [sortCriterion]); // Re-sort when the criterion changes
 
   const fetchDailyData = async () => {
     const formattedDate = new Date()
@@ -80,7 +71,7 @@ export default function Streaks() {
   };
 
   const fetchLeaderboardData = async () => {
-    // Construct the URL
+    console.log(user.email);
     const url = `http://118.139.10.45:3000/user/${user.email}`;
 
     try {
@@ -98,10 +89,34 @@ export default function Streaks() {
       }
 
       const data = await response.json(); // Parse JSON response
-      console.log(data);
+      const friends = data.friends.map((friend: any) => ({
+        id: friend.id,
+        name: friend.name,
+        morningStreak: friend.morningRoutineStreak,
+        eveningStreak: friend.eveningRountineStreak,
+        focusStreak: friend.focusSessionStreak,
+      }));
+      const allData = friends.concat({
+        id: data.id,
+        name: data.name,
+        morningStreak: data.morningRoutineStreak,
+        eveningStreak: data.eveningRountineStreak,
+        focusStreak: data.focusSessionStreak,
+      });
+
+      setLeaderboard(allData);
+      sortLeaderboard(allData); // Sort data when it's first fetched
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
+  };
+
+  const sortLeaderboard = (data = leaderboard) => {
+    // Sort based on the current sort criterion
+    const sortedData = [...data].sort(
+      (a: any, b: any) => b[sortCriterion] - a[sortCriterion],
+    );
+    setLeaderboard(sortedData);
   };
 
   return (
@@ -110,18 +125,27 @@ export default function Streaks() {
         <View style={styles.streaksHeader}>
           <Text style={styles.streaksHeaderText}>Streaks</Text>
           <View style={styles.streaksIconRow}>
-            <View style={styles.streaksIconContainer}>
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('morningStreak')} // Set sorting criterion to morningStreak
+            >
               <Sun size={24} color={Colors.light.tint} />
               <Text>1</Text>
-            </View>
-            <View style={styles.streaksIconContainer}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('eveningStreak')} // Set sorting criterion to eveningStreak
+            >
               <Moon size={24} color={Colors.light.tint} />
               <Text>2</Text>
-            </View>
-            <View style={styles.streaksIconContainer}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('focusStreak')} // Set sorting criterion to focusStreak
+            >
               <Clock size={24} color={Colors.light.tint} />
               <Text>3</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -170,14 +194,28 @@ export default function Streaks() {
         <View style={styles.leaderboardHeader}>
           <Text style={styles.leaderboardTitle}>Leaderboard</Text>
           <View style={styles.leaderboardIconRow}>
-            <Sun size={20} color={Colors.light.tint} />
-            <Moon size={20} color={Colors.light.tint} />
-            <Clock size={20} color={Colors.light.tint} />
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('morningStreak')} // Set sorting criterion to morningStreak
+            >
+              <Sun size={20} color={Colors.light.tint} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('eveningStreak')} // Set sorting criterion to eveningStreak
+            >
+              <Moon size={20} color={Colors.light.tint} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.streaksIconContainer}
+              onPress={() => setSortCriterion('focusStreak')} // Set sorting criterion to focusStreak
+            >
+              <Clock size={20} color={Colors.light.tint} />
+            </TouchableOpacity>
           </View>
         </View>
         <FlatList
           data={leaderboard}
-          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.leaderboardItem}>
               <Text style={styles.leaderboardName}>{item.name}</Text>

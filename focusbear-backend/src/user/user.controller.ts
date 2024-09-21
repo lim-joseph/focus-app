@@ -43,7 +43,8 @@ export class UserController {
     })
     addFriend(@Body() body: { userEmail: string, friendEmail: string }) {
         console.log(body)
-        return this.userService.addFriendByEmail(body.userEmail, body.friendEmail);
+        const user = this.userService.addFriendByEmail(body.userEmail, body.friendEmail);
+        return { message: user };
     }
 
 

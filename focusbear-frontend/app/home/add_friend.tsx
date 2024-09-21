@@ -1,5 +1,5 @@
-import { useUser } from '@/hooks/useUser';
-import React, { useState } from 'react';
+import { useAuth } from '@/hooks/useAuth';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   FlatList,
@@ -9,32 +9,16 @@ import {
   View,
 } from 'react-native';
 
-interface Friend {
-  id: number;
-  email: string;
-}
-
-const initialFriends: Friend[] = [
-  { id: 1, email: 'alice@example.com' },
-  { id: 2, email: 'bob@example.com' },
-  { id: 3, email: 'charlie@example.com' },
-];
-
 const Friends: React.FC = () => {
-  const [friends, setFriends] = useState<Friend[]>(initialFriends);
+  const [friends, setFriends] = useState<Friend[]>([]);
   const [email, setEmail] = useState<string>('');
-  const { user } = useUser();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    getFriends();
+  }, []);
 
   const addFriend = async () => {
-    if (email) {
-      const newFriend: Friend = {
-        id: friends.length + 1,
-        email: email,
-      };
-      setFriends([...friends, newFriend]);
-      setEmail('');
-    }
-
     // URL for the POST request
     const url = 'http://118.139.10.45:3000/user/add-friend';
 
@@ -62,6 +46,33 @@ const Friends: React.FC = () => {
 
       const data = await response.json(); // Assuming response is JSON
       console.log(data);
+      getFriends();
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  const getFriends = async () => {
+    // Construct the URL
+    const url = `http://118.139.10.45:3000/user/${user.email}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          accept: 'application/json', // Accepting JSON response
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Network response was not ok, status: ${response.status}`,
+        );
+      }
+
+      const data = await response.json(); // Parse JSON response
+      setFriends(data.friends);
+      console.log(data);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
@@ -76,7 +87,7 @@ const Friends: React.FC = () => {
       <Text style={styles.header}>Friends Leaderboard</Text>
       <FlatList
         data={sortedFriends}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.name.toString()}
         renderItem={({ item }) => (
           <Text style={styles.friendItem}>{item.email}</Text>
         )}

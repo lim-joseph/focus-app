@@ -3,8 +3,8 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { Colors } from '@/constants/Colors';
@@ -216,6 +216,7 @@ export default function Streaks() {
         </View>
         <FlatList
           data={leaderboard}
+          keyExtractor={() => crypto.randomUUID()}
           renderItem={({ item }) => (
             <View style={styles.leaderboardItem}>
               <Text style={styles.leaderboardName}>{item.name}</Text>

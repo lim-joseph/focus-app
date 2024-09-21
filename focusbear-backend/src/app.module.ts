@@ -11,13 +11,15 @@ import { AuthModule } from './auth/auth.module';
 import { DailyStateModule } from './daily-state/daily-state.module';
 import { DailyStatsEntity } from './daily-state/daily-state.entity';
 import InitSeeder from './database/seeds/init.seed';
+import { MailerModule } from '@nestjs-modules/mailer';
+
 @Module({
   imports: [
     UserModule,
     ConfigModule.forRoot({
       isGlobal: true,  // Make the configuration globally available
+      envFilePath: '.env',
     }),
-
     // Using TypeOrmModule.forRootAsync to access ConfigService
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],  // Import ConfigModule
@@ -35,6 +37,15 @@ import InitSeeder from './database/seeds/init.seed';
         seeds: [InitSeeder],
         factories: ["src/factories/**/*.factory.ts"]
       }),
+    }),
+    MailerModule.forRoot({
+      transport: {
+        service: process.env.EMAIL_SERVICE,
+        auth: {
+          user: process.env.EMAIL_USERNAME,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
     }),
 
     AuthModule,

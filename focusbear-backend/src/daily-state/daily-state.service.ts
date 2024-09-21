@@ -23,8 +23,18 @@ export class DailyStatService {
         });
     }
 
-    // findOne(id: number) {
-    //     return this.dailyStatsRepository.findOne({ where: { i} });
-    // }
+    async findByUserIdAndDate(userId: number, date: Date): Promise<DailyStatsEntity> {
+
+        const dailyState = await this.dailyStatsRepository.findOne({
+            where: {
+                user: { id: userId },
+                date: date,
+            },
+        });
+
+        return dailyState
+
+
+    }
 }
 

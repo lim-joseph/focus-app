@@ -1,4 +1,4 @@
-import {router, Tabs} from "expo-router";
+import {Redirect, router, Tabs} from "expo-router";
 import React from "react";
 
 import {TabBarIcon} from "@/components/navigation/TabBarIcon";
@@ -10,7 +10,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const {user} = useAuth();
   if (!user) {
-    router.push("/");
+    return <Redirect href="/" />;
   }
   return (
     <Tabs

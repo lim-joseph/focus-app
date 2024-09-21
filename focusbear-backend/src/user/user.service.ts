@@ -20,7 +20,49 @@ export class UserService {
     }
 
     findOne(findData: FindOptionsWhere<UserEntity>): Promise<UserEntity | null> {
-        return this.userRepository.findOneBy(findData);
+        return this.userRepository.
+            findOneBy(findData);
     }
+
+    async getUserWithFriends(email: string): Promise<any> {
+        return this.userRepository
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.friends', 'friend')
+            .select([
+                'user.id',
+                'user.email',
+                'user.name',
+                'user.morningRoutineStreak',
+                'user.eveningRountineStreak',
+                'user.focusSessionStreak',
+                'friend.email',
+                'friend.name',
+                'friend.morningRoutineStreak',
+                'friend.eveningRountineStreak',
+                'friend.focusSessionStreak'
+            ])
+            .where('user.email = :email', { email })
+            .getOne();
+    }
+    async addFriendByEmail(userEmail: string, friendEmail: string): Promise<void> {
+
+        const user = await this.userRepository.findOne({ where: { email: userEmail }, relations: ['friends'] });
+        const friend = await this.userRepository.findOne({ where: { email: friendEmail } });
+
+        console.log("User", user);
+        console.log("Friend", friend);
+        if (!user || !friend) {
+            throw new Error('User or friend not found');
+        }
+        if (user.email === friend.email) {
+            throw new Error('Cannot add yourself as a friend');
+        }
+
+        if (!user.friends.some(f => f.email === friendEmail)) {
+            user.friends.push(friend);
+            await this.userRepository.save(user);
+        }
+    }
+
 
 }

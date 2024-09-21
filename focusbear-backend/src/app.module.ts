@@ -8,7 +8,9 @@ import { UserModule } from './user/user.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
-
+import { DailyStateModule } from './daily-state/daily-state.module';
+import { DailyStatsEntity } from './daily-state/daily-state.entity';
+import InitSeeder from './database/seeds/init.seed';
 @Module({
   imports: [
     UserModule,
@@ -27,13 +29,17 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get<string>('DB_USERNAME') || 'postgres',
         password: configService.get<string>('DB_PASSWORD') || 'postgres',
         database: configService.get<string>('DB_DATABASE') || 'focusbear',
-        entities: [UserEntity],
+        entities: [UserEntity, DailyStatsEntity],
         synchronize: true,
         logging: true,
+        seeds: [InitSeeder],
+        factories: ["src/factories/**/*.factory.ts"]
       }),
     }),
 
     AuthModule,
+
+    DailyStateModule,
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService],

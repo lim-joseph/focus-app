@@ -1,4 +1,4 @@
-# Focusbear
+# Focus App
 
 Created for Focusbear hackathon, the app allows students to compete with their friends using studying time as a metric. 
 
